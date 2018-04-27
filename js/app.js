@@ -91,3 +91,18 @@ function checkRow(a, b, c, move) {
 function getBox(index) {
   return $boxes[index].innerText;
 }
+
+
+
+$('.reset').on('click', () =>{
+  for(let i = 0; i < $boxes.length; i++) {
+    resetGame(i);
+  }
+});
+
+//reset the game by clearing the boxes
+function resetGame(index) {
+  $boxes[index].innerText = "";
+  $boxes[index].classList.remove('box-filled-1');
+  $boxes[index].classList.remove('box-filled-2');
+}
