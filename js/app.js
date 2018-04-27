@@ -5,11 +5,14 @@ const $player1 = $('#player1');
 const $player2 = $('#player2');
 const $boxes = $('li.box');
 let placeholder = 'O';
+let gameWinner = null;
 startGame();
 
 //this is the newMove function
 $boxes.on('click', (e) =>{
-  if (e.target.innerText == "") {
+  if (gameWinner != null) {
+    alert(`${placeholder} has already won Game Over`);
+  } else if (e.target.innerText == "") {
     e.target.innerText = placeholder;
     disableBox(e);
     nextTurn();//call the nextTurn to change the contents of placeholder
@@ -23,8 +26,11 @@ function startGame() {
 
 //this function will keep track of whose turn it is and toggle the active class
 function nextTurn() {
+  //check for winner before changing to the next turn
+  //also set the game winner which will be used in the click handler
   if ( checkWinner(placeholder) == true ) {
-    alert(`${placeholder} has won`);
+    alert(`${placeholder} has won!!`);
+     gameWinner = placeholder;
   } else if(placeholder == "O") {
     placeholder = "X";
     $player1.removeClass('active');
