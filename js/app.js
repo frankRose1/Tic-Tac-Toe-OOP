@@ -1,17 +1,34 @@
 //GENERAL VARAIBLES start
+const $startDiv = $('#start');
+const $startButton = $('#start a.button');
 const $gameBoard = $('#board');
+const $finishDiv = $('#finish');
+const $restartButton = $('#finish header a');
 //player 1 is O player 2 is X
 const $player1 = $('#player1');
 const $player2 = $('#player2');
 const $boxes = $('li.box');
 let placeholder = 'O';
 let gameWinner = null;
-startGame();
+
+
+$gameBoard.hide(); //hide the game board at first until user clicks start game
+$finishDiv.hide(); //hide the finish div until a winner is found
+
+//clicking the start button begins the game
+$startButton.on('click', () => {
+  $startDiv.fadeOut(1000);
+  $gameBoard.fadeIn(2000);
+  startGame();
+});
+
 
 //this is the newMove function
 $boxes.on('click', (e) =>{
   if (gameWinner != null) {
     alert(`${placeholder} has already won Game Over`);
+    $gameBoard.fadeOut(1000);
+    $finishDiv.fadeIn(2000);
   } else if (e.target.innerText == "") {
     e.target.innerText = placeholder;
     disableBox(e);
@@ -94,10 +111,12 @@ function getBox(index) {
 
 
 
-$('.reset').on('click', () =>{
+$restartButton.on('click', () =>{
   for(let i = 0; i < $boxes.length; i++) {
     resetGame(i);
   }
+  $finishDiv.fadeOut(1000);
+  $gameBoard.fadeIn(2000);
 });
 
 //reset the game by clearing the boxes
@@ -106,3 +125,8 @@ function resetGame(index) {
   $boxes[index].classList.remove('box-filled-1');
   $boxes[index].classList.remove('box-filled-2');
 }
+
+
+$boxes.hover( function (e) {
+  $(e.target).toggleClass('toggle-box-filled-2');
+});

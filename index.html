@@ -8,6 +8,15 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- user sees this div upon page load -->
+  <div class="screen screen-start" id="start">
+  <header>
+    <h1>Tic Tac Toe</h1>
+    <a href="#" class="button">Start game</a>
+  </header>
+</div>
+
+  <!-- show this div when user starts game -->
 	<div class="board" id="board">
   <header>
     <h1>Tic Tac Toe</h1>
@@ -32,7 +41,16 @@
     <li class="box"></li>
   </ul>
 </div>
-<button class="reset">Restart Game</button>
+
+<!-- show this div when a winner is found -->
+<div class="screen screen-win" id="finish">
+  <header>
+    <h1>Tic Tac Toe</h1>
+    <p class="message"></p>
+    <a href="#" class="button">New game</a>
+  </header>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/game.js"></script>

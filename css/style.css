@@ -1,12 +1,5 @@
 @charset "UTF-8";
 
-.o-bg {
-  background: url('../img/o.svg');
-}
-
-.x-bg {
-  background: url('../img/x.svg');
-}
 
 body {
   background: #fff;
@@ -146,3 +139,14 @@ h1 {
     .boxes .box-filled-2 {
       background-color: #3688C3;
       background-image: url(../img/x.svg); }
+
+/*toggle these classes on the boxes when a user hovers over them*/
+  .boxes .toggle-box-filled-1 {
+      background-color: #EFEFEF;
+      background-image: url(../img/o.svg); 
+    }
+
+  .boxes .toggle-box-filled-2 {
+      background-color: #EFEFEF;
+      background-image: url(../img/x.svg);
+       }
