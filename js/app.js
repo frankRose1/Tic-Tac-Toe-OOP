@@ -29,16 +29,20 @@ $boxes.on('click', (e) =>{
     alert(`${placeholder} has already won Game Over`);
     $gameBoard.fadeOut(1000);
     $finishDiv.fadeIn(2000);
-  } else if (e.target.innerText == "") {
-    e.target.innerText = placeholder;
-    disableBox(e);
-    nextTurn();//call the nextTurn to change the contents of placeholder
+  } else if ( e.target.classList.contains('box-filled-2') === false || e.target.classList.contains('box-filled-1') === false ) {
+    disableBox(e); //disable the box that was clicked
+    nextTurn(); //call the nextTurn function to change the players turn
   }
 });
 
 function startGame() {
   let placeholder = "O";
   currentPlayer();
+}
+
+//sets 'O' as the active player when the game starts
+function currentPlayer() {
+  $player1.addClass('active');
 }
 
 //this function will keep track of whose turn it is and toggle the active class
@@ -48,28 +52,22 @@ function nextTurn() {
   if ( checkWinner(placeholder) == true ) {
     alert(`${placeholder} has won!!`);
      gameWinner = placeholder;
-  } else if(placeholder == "O") {
-    placeholder = "X";
+  } else if( $player1.hasClass('active') ) {
     $player1.removeClass('active');
     $player2.addClass('active');
   } else {
-      placeholder = "O";
       $player1.addClass('active');
       $player2.removeClass('active');
   }
 }
 
-function currentPlayer() {
-  $player1.addClass('active');
-}
 
-//this is called in the click event and is evaluated before the nextTurn is called
-// as nextTurn will change the contents of placeholder
+//this is called in the click event and is evaluated before the nextTurn function is called
+// evaluate the current active playyer and disable the box that they clicked
 function disableBox(e) {
-  //add the disabled class based on what is inside placeholder
-    if (placeholder == "O") {
+    if ( $player1.hasClass('active') ) {
       $(e.target).addClass('box-filled-1');
-    } else if (placeholder == "X") {
+    } else if ( $player2.hasClass('active') ) {
       $(e.target).addClass('box-filled-2');
     }
 }
@@ -127,6 +125,12 @@ function resetGame(index) {
 }
 
 
-$boxes.hover( function (e) {
-  $(e.target).toggleClass('toggle-box-filled-2');
+$boxes.hover( (e) => {
+  if ( $player1.hasClass('active') ) {
+    $(e.target).toggleClass('box-filled-1');
+    $(e.target).css('background-color', '#EFEFEF');
+  } else if ($player2.hasClass('active') ) {
+    $(e.target).toggleClass('box-filled-2');
+    $(e.target).css('background-color', '#EFEFEF');
+  }
 });
