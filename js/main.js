@@ -7,7 +7,6 @@ const $restartButton = $('#finish header a');
 const $player1 = $('#player1');
 const $player2 = $('#player2');
 const $boxes = $('li.box');
-let placeholder = 'O';
 let gameWinner = null;
 
 $gameBoard.hide(); //hide the game board at first until user clicks start game
@@ -19,10 +18,13 @@ $startButton.on('click', (e) =>{
 	startGame();
 });
 
-//click event and next move function
+//if there is a winner do not allow user to clikc on boxes anymore
+//if the boxes already have a "filled" class do not allow them to be clicked
+//toggle the active class by calling the switchTurn function
 $boxes.on('click', (e) => {
-	//both filled classes must be absent for a box to be clickable
-   if( e.target.classList.contains('box-filled-1') == false && e.target.classList.contains('box-filled-2') == false ) {
+	if (gameWinner != null) {
+		return;
+	} else if( e.target.classList.contains('box-filled-1') == false && e.target.classList.contains('box-filled-2') == false ) {
 	   	if ($player1.hasClass('active') ) {
 			$(e.target).addClass('box-filled-1');
 			switchTurn()
@@ -42,7 +44,8 @@ function startGame() {
 function switchTurn(){
 	//check for a winner before anything else is done
 	if (checkForWinner('box-filled-1') || checkForWinner('box-filled-2')) {
-		alert('you won');
+		gameWinner = true;
+		winningPlayer(gameWinner);
 	} else if( $player1.hasClass('active') ) {
 		$player1.removeClass('active');
 		$player2.addClass('active');
@@ -50,6 +53,21 @@ function switchTurn(){
 		$player1.addClass('active');
 		$player2.removeClass('active');
 	}
+}
+
+// tell who won the game based on where the 'active' class is on the final turn
+function winningPlayer(gameWinner) {
+	if (gameWinner != null) {
+		if ( $player1.hasClass('active') ) {
+			alert('player 1 wins!!!');
+			$gameBoard.fadeOut(1000);
+			$finishDiv.fadeIn(2000);
+		} else {
+			alert('player 2 wins!!!!');
+			$gameBoard.fadeOut(1000);
+			$finishDiv.fadeIn(2000);
+		}
+	}//end of first if stmnt
 }
 
 //check win conditions and return a  boolean
@@ -82,9 +100,18 @@ function getBox(index) {
 	return $boxes[index].classList;
 }
 
+//clear the classes in the boxes when the game restarts
+function clearBox(index) {
+	$boxes[index].classList.remove('box-filled-1', 'box-filled-2');
+}
+
+//clears the background images from the hover event
+function clearBgImg(index) {
+	$($boxes[index]).css("background-image", '');
+}
 
 
-//hover event to toggle the  O or X svg
+//hover event to toggle the  O or X svg background
  $boxes.hover(
       function() {
       //if the box is filled return
@@ -109,3 +136,17 @@ function getBox(index) {
         $(this).css("background-image", '');
       }
       });
+
+ //restart the game by clearing the classes, background images, and resetting gameWinner to null
+ $restartButton.on('click', (e) => {
+ 	for (let i = 0; i < $boxes.length; i++) {
+		clearBox(i);
+		clearBgImg(i);
+	}
+	$player1.removeClass('active');
+	$player2.removeClass('active');
+	gameWinner = null;
+
+ 	$finishDiv.fadeOut(1000);
+ 	$startDiv.fadeIn(2000);
+ });
