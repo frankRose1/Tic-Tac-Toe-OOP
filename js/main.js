@@ -13,12 +13,13 @@ $gameBoard.hide(); //hide the game board at first until user clicks start game
 $finishDiv.hide(); //hide the finish div until a winner is found
 
 $startButton.on('click', (e) =>{
+	$finishDiv.removeClass('screen-win-one screen-win-two');
 	$startDiv.fadeOut(1000);
 	$gameBoard.fadeIn(2000);
 	startGame();
 });
 
-//if there is a winner do not allow user to clikc on boxes anymore
+//if there is a winner do not allow user to click on boxes anymore
 //if the boxes already have a "filled" class do not allow them to be clicked
 //toggle the active class by calling the switchTurn function
 $boxes.on('click', (e) => {
@@ -59,15 +60,15 @@ function switchTurn(){
 function winningPlayer(gameWinner) {
 	if (gameWinner != null) {
 		if ( $player1.hasClass('active') ) {
-			alert('player 1 wins!!!');
 			$gameBoard.fadeOut(1000);
 			$finishDiv.fadeIn(2000);
+			$finishDiv.addClass('screen-win-one');
 		} else {
-			alert('player 2 wins!!!!');
 			$gameBoard.fadeOut(1000);
 			$finishDiv.fadeIn(2000);
+			$finishDiv.addClass('screen-win-two');
 		}
-	}//end of first if stmnt
+	}//end of gameWinner if stmnt
 }
 
 //check win conditions and return a  boolean
@@ -145,8 +146,7 @@ function clearBgImg(index) {
 	}
 	$player1.removeClass('active');
 	$player2.removeClass('active');
-	gameWinner = null;
-
  	$finishDiv.fadeOut(1000);
  	$startDiv.fadeIn(2000);
+ 	gameWinner = null;
  });
