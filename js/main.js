@@ -1,3 +1,6 @@
+// TIC-TAC-TOE using Javascript
+//by Frank Rosendorf
+
 //GENERAL VARIABLES
 const $startDiv = $('#start');
 const $startButton = $('#start a.button');
