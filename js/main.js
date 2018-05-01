@@ -2,18 +2,20 @@ const $startDiv = $('#start');
 const $startButton = $('#start a.button');
 const $gameBoard = $('#board');
 const $finishDiv = $('#finish');
+const $message = $('header p.message');
 const $restartButton = $('#finish header a');
 //player 1 is O player 2 is X
 const $player1 = $('#player1');
 const $player2 = $('#player2');
 const $boxes = $('li.box');
+let turnCounter = 0;
 let gameWinner = null;
 
 $gameBoard.hide(); //hide the game board at first until user clicks start game
 $finishDiv.hide(); //hide the finish div until a winner is found
 
 $startButton.on('click', (e) =>{
-	$finishDiv.removeClass('screen-win-one screen-win-two');
+	$finishDiv.removeClass('screen-win-one screen-win-two screen-win-tie');
 	$startDiv.fadeOut(1000);
 	$gameBoard.fadeIn(2000);
 	startGame();
@@ -28,9 +30,11 @@ $boxes.on('click', (e) => {
 	} else if( e.target.classList.contains('box-filled-1') == false && e.target.classList.contains('box-filled-2') == false ) {
 	   	if ($player1.hasClass('active') ) {
 			$(e.target).addClass('box-filled-1');
+			turnCounter += 1;
 			switchTurn()
 		} else {
 			$(e.target).addClass('box-filled-2');
+			turnCounter += 1;
 			switchTurn();
 		}
    }
@@ -42,11 +46,15 @@ function startGame() {
 };
 
 //evalute the current player and switch the active class
+//check for a winner or draw before anything else is done
 function switchTurn(){
-	//check for a winner before anything else is done
 	if (checkForWinner('box-filled-1') || checkForWinner('box-filled-2')) {
+		$message.text("Winner");
 		gameWinner = true;
 		winningPlayer(gameWinner);
+	} else if (checkForDraw()) {
+		$message.text("It's a draw!");
+		itsADraw();
 	} else if( $player1.hasClass('active') ) {
 		$player1.removeClass('active');
 		$player2.addClass('active');
@@ -69,6 +77,21 @@ function winningPlayer(gameWinner) {
 			$finishDiv.addClass('screen-win-two');
 		}
 	}//end of gameWinner if stmnt
+}
+
+//if 9 turns have passed and no winner is found there is a draw
+function checkForDraw() {
+	let drawResult = false;
+	if (turnCounter == 9 && gameWinner == null) {
+		drawResult = true;
+	}
+	return drawResult;
+}
+
+function itsADraw() {
+	$gameBoard.fadeOut(1000);
+	$finishDiv.fadeIn(2000);
+	$finishDiv.addClass('screen-win-tie');
 }
 
 //check win conditions and return a  boolean
@@ -139,14 +162,16 @@ function clearBgImg(index) {
       });
 
  //restart the game by clearing the classes, background images, and resetting gameWinner to null
- $restartButton.on('click', (e) => {
+ $restartButton.on('click', () => {
  	for (let i = 0; i < $boxes.length; i++) {
 		clearBox(i);
 		clearBgImg(i);
 	}
 	$player1.removeClass('active');
 	$player2.removeClass('active');
+	$message.text("");
  	$finishDiv.fadeOut(1000);
  	$startDiv.fadeIn(2000);
  	gameWinner = null;
+ 	turnCounter = 0;
  });
