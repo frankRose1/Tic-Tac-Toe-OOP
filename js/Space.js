@@ -28,4 +28,12 @@ class Space {
         document.querySelector("ul.boxes").appendChild(space);
     }
 
+    /**
+     * Mark the space object as occupied
+     * @param {object} token - token that was dropped in this space
+     */
+    mark(token){
+        this.token = token;
+    }
+
 }

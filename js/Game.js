@@ -32,28 +32,90 @@ class Game {
      * Adjust the HTML for the players turn
      */
     playerTurn(){
+        const unactivePlayer = this.players.find(player => !player.active);
         const activePlayer = this.activePlayer;
+        document.getElementById(unactivePlayer.id).style.backgroundColor = 'rgba(0,0,0,0.2)';
         document.getElementById(activePlayer.id).style.backgroundColor = activePlayer.color;
     }
 
     /**
-     * Toggle the player's Token image as they hover over a space
-     * @param {object} e - the mouseover event
+     * Switch players after each click
      */
-    handleMouseOver(e){
-        if (!e.target.classList.contains('box')) {return;}
-        console.log(e.target);
-        e.target.style.backgroundImage = `url(${this.activePlayer.activeToken.tokenPath})`;
+    switchPlayers(){
+        for (let player of this.players) {
+            player.active = player.active === true ? false : true;
+        }
     }
 
     /**
-     * Remove the player's Token image as they mouse out of a  space
+     * Print the results of the game in the DOM
+     * @param {string} message - winner of game or a draw
+     */
+    gameOver(message){
+        const finish = document.getElementById('finish');
+        document.getElementById('board').style.display = 'none';
+        finish.style.display = 'block';
+        finish.style.backgroundColor = this.activePlayer.color;
+        document.querySelector('p.message').textContent = message;
+    }
+
+    /**
+     * Check the spaces horizontal diagonal and vertical from where the space was clicked
+     * @return {boolean} win - whether or not a winner was found
+     */
+    checkForWinner(){
+        return true;
+    }
+
+    /**
+     * Update the state of the game and check for a winner
+     * @param {object} token - token that was most recently played
+     * @param {object} targetSpace - space that was most recently occupied
+     */
+    updateGameState(token, targetSpace){
+        //mark the space and establish the token has been played
+        targetSpace.mark(token);
+        token.played = true;
+        //check for a win
+        const gameIsOver = this.checkForWinner();
+        if (gameIsOver) {
+            this.gameOver(`Game over! ${this.activePlayer.name} wins!!`);
+        } else {
+            //check to see if tokens remain
+            //if so switch players
+            //set game ready back to true
+            this.switchPlayers();
+            this.playerTurn();
+            this.ready = true;
+        }
+    }
+
+    /**
+     * Toggle the player's Token image as they hover over a space only if the game state is ready
+     * @param {object} e - the mouseover event
+     */
+    handleMouseOver(e){
+        if (this.ready) {
+            if (e.target.classList.contains('box-filled-1') || e.target.classList.contains('box-filled-2')) {
+                return;
+            }
+            if (!e.target.classList.contains('box')) {return;}
+            e.target.style.backgroundImage = `url(${this.activePlayer.activeToken.tokenPath})`;
+        }
+    }
+
+    /**
+     * Remove the player's Token image as they mouse out of a space
      * @param {object} e - the mouseout event
      */
     handleMouseOut(e){
-        if (!e.target.classList.contains('box')) {return;}
-        console.log(e.target);
-        e.target.style.backgroundImage = "";
+        if (this.ready) {
+            if (e.target.classList.contains('box-filled-1') || e.target.classList.contains('box-filled-2')) {
+                return;
+            }
+            if (!e.target.classList.contains('box')) {return;}
+            e.target.style.backgroundImage = "";
+        }
     }
 
      /**
@@ -61,16 +123,28 @@ class Game {
      * @param {object} e - the click event
      */
     handleClick(e){
-        if (!e.target.classList.contains('box')) {return;}
-        e.target.style.backgroundImage = `url(${this.activePlayer.activeToken.tokenPath})`;
-        e.target.style.backgroundColor = this.activePlayer.color;
+        if (this.ready) {
+            if (e.target.classList.contains('box-filled-1') || e.target.classList.contains('box-filled-2')) { return; }
+            if (!e.target.classList.contains('box')) { return; }
+            //make game state false while game is updated
+            this.ready = false;
+
+            //mark the targeted DOM space
+            const fillClass = this.activePlayer.id == 'player1' ? 'box-filled-1' : 'box-filled-2';
+            e.target.classList.add(fillClass);
+
+            //update the game state
+            const spaceId = e.target.id;
+            const token = this.activePlayer.activeToken;
+            const targetSpace = this.board.findSpace(spaceId);
+            this.updateGameState(token, targetSpace);
+        }
     }
 
     /**
      * Initialize the Game
      */
     startGame(){
-        console.log('game started');
         this.board.renderHTMLBoard();
         this.playerTurn();
         this.ready = true;

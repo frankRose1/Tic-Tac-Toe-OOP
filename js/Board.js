@@ -36,4 +36,20 @@ class Board {
         }
     }
 
+    /**
+     * Get an individual space object
+     * @param {string} spaceId - ID of the space requested
+     * @return {object} targetSpace - the space to be marked
+     */
+    findSpace(spaceId){
+        let targetSpace;
+        for (let column of this.spaces) {
+            for (let space of column) {
+                if (space.id == spaceId) {
+                    targetSpace = space;
+                }
+            }
+        }
+        return targetSpace;
+    }
 }
