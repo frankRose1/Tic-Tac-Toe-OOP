@@ -28,12 +28,12 @@ class Board {
     /**
      * Render the game board using the spaces array of objects
      */
-    renderBoard(){
+    renderHTMLBoard(){
         for (let column of this.spaces) {
             for (let space of column) {
-                space.renderSpace();
+                space.renderHTMLSpace();
             }
         }
     }
-    
+
 }

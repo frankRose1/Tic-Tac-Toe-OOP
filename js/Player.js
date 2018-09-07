@@ -12,6 +12,23 @@ class Player {
     }
 
     /**
+     * Determine which tokens havn't been played yet
+     * @return {array} unusedTokens - array of tokens whos "played" value is false;
+     */
+    get unusedTokens(){
+        const unusedTokens = this.tokens.filter(token => !token.played);
+        return unusedTokens;
+    }
+
+    /**
+     * Pull one of the player's unused tokens to be used as the next active token
+     * @return {object} token - the first token in the unusedTokens array
+     */
+    get activeToken(){
+        return this.unusedTokens[0];
+    }
+
+    /**
      * Each Player will get 5 tokens 
      * @param {integer} numOfTokens - number of tokens to create
      * @return {array} tokens - array of token objects

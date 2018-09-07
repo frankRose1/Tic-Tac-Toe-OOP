@@ -12,12 +12,20 @@ class Space {
     }
 
     /**
+     * Get the DOM space to attach an event listener to it
+     */
+    get htmlSpace(){
+        return document.getElementById(this.id);
+    }
+
+    /**
      * Create an HTML representaion of the object
      */
-    renderSpace(){
+    renderHTMLSpace(){
         const space = document.createElement('li');
         space.setAttribute("class", "box");
         space.setAttribute("id", this.id);
         document.querySelector("ul.boxes").appendChild(space);
     }
+
 }
