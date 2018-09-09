@@ -67,9 +67,7 @@ class Game {
     checkForWinner(target){
         const owner = target.owner;
         let win = false;
-        //check all of the space objects to see if a player owns the spaces in a win condition
-        //each space object has a "get owner" method that will return the owner of the space or null
-
+        
         //vertical
         for (let x = 0; x < this.board.cols - 2; x++) {
             for (let y = 0; y < this.board.rows; y++) {
@@ -83,11 +81,32 @@ class Game {
         }
 
         //horizontal
+        for (let x = 0; x < this.board.cols; x++) {
+            for (let y = 0; y < this.board.rows - 2; y++) {
+                if (this.board.spaces[x][y].owner === owner && 
+                    this.board.spaces[x][y + 1].owner === owner &&
+                    this.board.spaces[x][y + 2].owner === owner ) {
+                    win = true;
+                    return win;
+                }
+            }
+        }
 
-        //diagonal
+        //diagonal (top left - bottom right)
+        if (this.board.spaces[0][0].owner === owner && 
+            this.board.spaces[1][1].owner === owner &&
+            this.board.spaces[2][2].owner === owner) {
+                win = true;
+                return win;
+        }
 
-        //diagonal
-
+        //diagonal (top right - bottom left)
+        if (this.board.spaces[0][2].owner === owner && 
+            this.board.spaces[1][1].owner === owner &&
+            this.board.spaces[2][0].owner === owner) {
+                win = true;
+                return win;
+        }
 
         return win;
     }
