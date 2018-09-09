@@ -22,8 +22,8 @@ class Token {
 
     /**
      * Get the path to the token and store a reference of the object ID
-     * player.id = 1 gets the O SVG
-     * player.id = 2 gets the X SVG
+     * player1 gets the O SVG
+     * player2 gets the X SVG
      */
     renderHTMLToken(){
         let tokenPath = "";
@@ -42,4 +42,5 @@ class Token {
     get htmlToken(){
         return document.getElementById(this.id);
     }
+
 }

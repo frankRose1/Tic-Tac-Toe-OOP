@@ -19,6 +19,18 @@ class Space {
     }
 
     /**
+     * Checks to see if a player owns this space and returns the owner
+     * @return {null || object} null if there is no token associated with the space, else return the owner object
+     */
+    get owner(){
+        if (this.token === null) {
+            return null
+        } else {
+            return this.token.owner.name;
+        }
+    }
+
+    /**
      * Create an HTML representaion of the object
      */
     renderHTMLSpace(){

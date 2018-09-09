@@ -61,10 +61,35 @@ class Game {
 
     /**
      * Check the spaces horizontal diagonal and vertical from where the space was clicked
+     * @param {object} target - space object most recently filled
      * @return {boolean} win - whether or not a winner was found
      */
-    checkForWinner(){
-        return true;
+    checkForWinner(target){
+        const owner = target.owner;
+        let win = false;
+        //check all of the space objects to see if a player owns the spaces in a win condition
+        //each space object has a "get owner" method that will return the owner of the space or null
+
+        //vertical
+        for (let x = 0; x < this.board.cols - 2; x++) {
+            for (let y = 0; y < this.board.rows; y++) {
+                if (this.board.spaces[x][y].owner === owner && 
+                    this.board.spaces[x + 1][y].owner === owner &&
+                    this.board.spaces[x + 2][y].owner === owner ) {
+                    win = true;
+                    return win;
+                }
+            }
+        }
+
+        //horizontal
+
+        //diagonal
+
+        //diagonal
+
+
+        return win;
     }
 
     /**
@@ -77,9 +102,9 @@ class Game {
         targetSpace.mark(token);
         token.played = true;
         //check for a win
-        const gameIsOver = this.checkForWinner();
+        const gameIsOver = this.checkForWinner(targetSpace);
         if (gameIsOver) {
-            this.gameOver(`Game over! ${this.activePlayer.name} wins!!`);
+            this.gameOver(`Game over! ${this.activePlayer.name} wins!`);
         } else {
             //check to see if tokens remain
             //if so switch players
