@@ -6,9 +6,9 @@ const start = document.getElementById('start');
 const board = document.getElementById('board');
 const finish = document.getElementById('finish');
 const spaces = document.querySelector('ul.boxes');
-const game = new Game();
+const newGameButton = document.querySelector('#finish a.button');
+let game = new Game();
 
-//hide the board and finish screen
 board.style.display = 'none';
 finish.style.display = 'none';
 
@@ -30,10 +30,10 @@ spaces.addEventListener("click", (e) => {
     game.handleClick(e);
 });
 
-//TODO: When a click happens
-// change gamestate to false
-// mark a token as played
-//mark the DOM element as occupied
-// check for a winner
-// switch players
-//pull a new token for a player
+newGameButton.addEventListener("click", () => {
+    finish.style.display = 'none';
+    spaces.innerHTML = '';
+    board.style.display = 'block';
+    game = new Game();
+    game.startGame();
+});

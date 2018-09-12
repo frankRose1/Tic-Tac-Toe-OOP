@@ -6,7 +6,9 @@ class Game {
     constructor(){
         this.board = new Board();
         this.players = this.createPlayers();
-        this.ready = false; //controlls wether or not the game can be interacted with
+        this.ready = false;
+        this.win = false;
+        this.turns = 0;
     }
 
     /**
@@ -34,8 +36,8 @@ class Game {
     playerTurn(){
         const unactivePlayer = this.players.find(player => !player.active);
         const activePlayer = this.activePlayer;
-        document.getElementById(unactivePlayer.id).style.backgroundColor = 'rgba(0,0,0,0.2)';
-        document.getElementById(activePlayer.id).style.backgroundColor = activePlayer.color;
+        document.getElementById(unactivePlayer.id).classList.remove('active');
+        document.getElementById(activePlayer.id).classList.add('active');
     }
 
     /**
@@ -51,12 +53,33 @@ class Game {
      * Print the results of the game in the DOM
      * @param {string} message - winner of game or a draw
      */
-    gameOver(message){
+    gameOver(message, result){
         const finish = document.getElementById('finish');
+        let screenStyle; 
         document.getElementById('board').style.display = 'none';
+
+        if (result === 'draw') {
+            screenStyle = 'screen-win-tie';
+        } else {
+            screenStyle = this.activePlayer.id == 'player1' ? 'screen-win-one' : 'screen-win-two';
+            finish.style.backgroundColor = this.activePlayer.color;
+        }
+        
         finish.style.display = 'block';
-        finish.style.backgroundColor = this.activePlayer.color;
+        finish.classList.add(screenStyle);
         document.querySelector('p.message').textContent = message;
+    }
+
+    /**
+     * If 9 turns pass and a winner isn't found, there is a draw
+     * @return {boolean} - draw will be true or false
+     */
+    checkForDraw(){
+        let draw = false;
+        if (!this.win && this.turns == 9) {
+            draw = true;
+        }
+        return draw;
     }
 
     /**
@@ -67,7 +90,7 @@ class Game {
     checkForWinner(target){
         const owner = target.owner;
         let win = false;
-        
+
         //vertical
         for (let x = 0; x < this.board.cols - 2; x++) {
             for (let y = 0; y < this.board.rows; y++) {
@@ -117,17 +140,20 @@ class Game {
      * @param {object} targetSpace - space that was most recently occupied
      */
     updateGameState(token, targetSpace){
+        this.turns++;
+
         //mark the space and establish the token has been played
         targetSpace.mark(token);
         token.played = true;
-        //check for a win
+        //check for a win or draw
         const gameIsOver = this.checkForWinner(targetSpace);
+        const draw = this.checkForDraw();
         if (gameIsOver) {
-            this.gameOver(`Game over! ${this.activePlayer.name} wins!`);
+            this.win = true;
+            this.gameOver(`${this.activePlayer.name} wins!`, 'win');
+        } else if (draw) {
+            this.gameOver('It\'s a draw!', 'draw');
         } else {
-            //check to see if tokens remain
-            //if so switch players
-            //set game ready back to true
             this.switchPlayers();
             this.playerTurn();
             this.ready = true;
