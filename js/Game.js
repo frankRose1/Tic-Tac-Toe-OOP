@@ -24,8 +24,8 @@ class Game {
      */
     createPlayers(){
         const players = [
-            new Player("John", "player1", "#FFA000", true),
-            new Player("Jane", "player2", "#3688C3")
+            new Player("Player 1", "player1", "#FFA000", true),
+            new Player("Player 2", "player2", "#3688C3")
         ];
         return players;
     }
@@ -60,6 +60,7 @@ class Game {
 
         if (result === 'draw') {
             screenStyle = 'screen-win-tie';
+            finish.style.backgroundColor = '#54D17A';
         } else {
             screenStyle = this.activePlayer.id == 'player1' ? 'screen-win-one' : 'screen-win-two';
             finish.style.backgroundColor = this.activePlayer.color;
