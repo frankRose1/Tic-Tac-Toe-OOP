@@ -12,6 +12,12 @@
   <div class="screen screen-start" id="start">
   <header>
     <h1>Tic Tac Toe</h1>
+    <div class="player-names">
+      <label for="player-1-name">Player 1 Name:</label>
+      <input type="text" id="player-1-name">
+      <label for="player-2-name">Player 2 Name:</label>
+      <input type="text" id="player-2-name">
+    </div>
     <a href="#" class="button">Start game</a>
   </header>
 </div>
@@ -19,6 +25,8 @@
   <!-- show this div when user starts game or game resets -->
 	<div class="board" id="board">
   <header>
+    <p class="player1-name">Player 1</p>
+    <p class="player2-name">Payer 2</p>
     <h1>Tic Tac Toe</h1>
     <ul>
       <li class="players" id="player1">
@@ -43,13 +51,11 @@
   </header>
 </div>
 
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="js/main.js"></script> -->
-<script src="js/Space.js"></script>
-<script src="js/Token.js"></script>
-<script src="js/Player.js"></script>
-<script src="js/Board.js"></script>
-<script src="js/Game.js"></script>
-<script src="js/app.js"></script>
+  <script src="js/Space.js"></script>
+  <script src="js/Token.js"></script>
+  <script src="js/Player.js"></script>
+  <script src="js/Board.js"></script>
+  <script src="js/Game.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

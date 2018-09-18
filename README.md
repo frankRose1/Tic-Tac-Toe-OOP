@@ -1,4 +1,4 @@
-#Tic-Tac-Toe with Object Oriented JavaScript
+# Tic-Tac-Toe with Object Oriented JavaScript
 A functional two person tic tac toe game built with OOJS. Objects represent different aspects of the game and elements in the DOM. The ```Game``` class is where you'll find the bulk of the game logic and where DOM events are handled.
 
 ## About the Objects
@@ -16,7 +16,7 @@ A functional two person tic tac toe game built with OOJS. Objects represent diff
 * Occupied squares are identified with an X or O
 * Games ends if player has 3 symbols in a row, or the board is full
 * Finish screen appears announcing winner (or tie)
-* New game button triggers ```javascript new Game()``` and clears the board
+* New game button triggers ```new Game()``` and clears the board
 
 ## Author
 Frank Rosendorf

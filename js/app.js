@@ -7,12 +7,13 @@ const board = document.getElementById('board');
 const finish = document.getElementById('finish');
 const spaces = document.querySelector('ul.boxes');
 const newGameButton = document.querySelector('#finish a.button');
-let game = new Game();
+let game;
 
 board.style.display = 'none';
 finish.style.display = 'none';
 
 startButton.addEventListener("click", () => {
+    game = new Game();
     start.style.display = 'none';
     board.style.display = 'block';
     game.startGame();

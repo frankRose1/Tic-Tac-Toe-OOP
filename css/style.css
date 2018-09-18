@@ -17,6 +17,44 @@ h1 {
   text-align: left;
   width: 1.875em; }
 
+.player-names {
+  margin: 25px 0;
+}
+.player-names label{
+  color: #fff;
+  font-weight: bold;
+}
+
+.player-names input {
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+input#player-1-name {
+  margin-right: 15px;
+}
+
+.player-names input:focus {
+  border-radius: 2px;
+  background-color: #ddd;
+}
+
+.player1-name, .player2-name {
+  position: absolute;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.player1-name {
+  top: 80px;
+  left: 10%;
+}
+
+.player2-name {
+  top: 80px;
+  right: 10%;
+}
+
 .button {
   background: #fff;
   border-radius: 4px;

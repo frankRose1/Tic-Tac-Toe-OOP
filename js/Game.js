@@ -23,9 +23,13 @@ class Game {
      * Create two players
      */
     createPlayers(){
+        const player1Input = document.getElementById("player-1-name").value;
+        const player2Input = document.getElementById("player-2-name").value;
+        const player1Name = player1Input.trim().length > 0 ? player1Input : "Player 1";
+        const player2Name = player2Input.trim().length > 0 ? player2Input : "Player 2";
         const players = [
-            new Player("Player 1", "player1", "#FFA000", true),
-            new Player("Player 2", "player2", "#3688C3")
+            new Player(player1Name, "player1", "#FFA000", true),
+            new Player(player2Name, "player2", "#3688C3")
         ];
         return players;
     }
@@ -55,6 +59,7 @@ class Game {
      */
     gameOver(message, result){
         const finish = document.getElementById('finish');
+        finish.classList.remove("screen-win-tie", "screen-win-one", "screen-win-two")
         let screenStyle; 
         document.getElementById('board').style.display = 'none';
 
@@ -217,6 +222,12 @@ class Game {
      */
     startGame(){
         this.board.renderHTMLBoard();
+        const p1NameCard = document.querySelector(".player1-name");
+        const p2NameCard = document.querySelector(".player2-name");
+        p1NameCard.textContent = this.players[0].name;
+        p1NameCard.style.color = this.players[0].color;
+        p2NameCard.textContent = this.players[1].name;
+        p2NameCard.style.color = this.players[1].color;
         this.playerTurn();
         this.ready = true;
     }
