@@ -10,17 +10,22 @@
 <body>
   <!-- user sees this div upon page load -->
   <div class="screen screen-start" id="start">
-  <header>
-    <h1>Tic Tac Toe</h1>
-    <div class="player-names">
-      <label for="player-1-name">Player 1 Name:</label>
-      <input type="text" id="player-1-name">
-      <label for="player-2-name">Player 2 Name:</label>
-      <input type="text" id="player-2-name">
-    </div>
-    <a href="#" class="button">Start game</a>
-  </header>
-</div>
+    <header>
+      <h1>Tic Tac Toe</h1>
+      <div class="multiplayer-or-computer">
+        <button id='vs-friend' class='button btn-choice' >Play Against Friend</button>
+        <button id='vs-computer' class='button btn-choice' >Play Against Computer</button>
+      </div>
+
+      <div class="player-names">
+        <label for="player-1-name">Player 1 Name:</label>
+        <input type="text" id="player-1-name">
+        <label for="player-2-name">Player 2 Name:</label>
+        <input type="text" id="player-2-name">
+      </div>
+      <a href="#" id='start-button' class="button">Start game</a>
+    </header>
+  </div>
 
   <!-- show this div when user starts game or game resets -->
 	<div class="board" id="board">
@@ -54,6 +59,7 @@
   <script src="js/Space.js"></script>
   <script src="js/Token.js"></script>
   <script src="js/Player.js"></script>
+  <script src="js/Computer.js"></script>
   <script src="js/Board.js"></script>
   <script src="js/Game.js"></script>
   <script src="js/app.js"></script>

@@ -3,12 +3,13 @@
  */
 
 class Game {
-    constructor(){
+    constructor(vsComputer = false){
+        this.vsComputer = vsComputer
         this.board = new Board();
         this.players = this.createPlayers();
-        this.ready = false;
         this.win = false;
         this.turns = 0;
+        this._ready = false;
     }
 
     /**
@@ -19,29 +20,51 @@ class Game {
         return this.players.find(player => player.active);
     }
 
+    get ready(){
+        return this._ready
+    }
+
+    set ready(val){
+        this._ready = val
+    }
+
     /**
-     * Create two players
+     * Create two players. Player 2 will be an instance of "Computer" if "this.vsComputer"
+     * is set to true
      */
     createPlayers(){
         const player1Input = document.getElementById("player-1-name").value;
-        const player2Input = document.getElementById("player-2-name").value;
         const player1Name = player1Input.trim().length > 0 ? player1Input : "Player 1";
-        const player2Name = player2Input.trim().length > 0 ? player2Input : "Player 2";
+        let player2;
+        if (this.vsComputer){
+            player2 = new Computer('Computer', 'player2', '#3688C3', false)
+        } else {
+            const player2Input = document.getElementById("player-2-name").value;
+            const player2Name = player2Input.trim().length > 0 ? player2Input : "Player 2";
+            player2 = new Player(player2Name, 'player2', '#3688C3', false)
+        }
+        
         const players = [
             new Player(player1Name, "player1", "#FFA000", true),
-            new Player(player2Name, "player2", "#3688C3")
+            player2
         ];
         return players;
     }
 
     /**
-     * Adjust the HTML for the players turn
+     * Adjust the HTML for the players turn and if the active player is a computer
+     * call the "makeMove" method
      */
     playerTurn(){
+        this.ready = true
         const unactivePlayer = this.players.find(player => !player.active);
         const activePlayer = this.activePlayer;
         document.getElementById(unactivePlayer.id).classList.remove('active');
         document.getElementById(activePlayer.id).classList.add('active');
+        
+        if (activePlayer.name === 'Computer'){
+            activePlayer.makeMove()
+        }
     }
 
     /**
@@ -162,7 +185,6 @@ class Game {
         } else {
             this.switchPlayers();
             this.playerTurn();
-            this.ready = true;
         }
     }
 
@@ -194,7 +216,7 @@ class Game {
         }
     }
 
-     /**
+    /**
      * Occupy a space with a player's SVG token
      * @param {object} e - the click event
      */
@@ -228,7 +250,6 @@ class Game {
         p1NameCard.style.color = this.players[0].color;
         p2NameCard.textContent = this.players[1].name;
         p2NameCard.style.color = this.players[1].color;
-        this.playerTurn();
-        this.ready = true;
+        this.playerTurn();      
     }
 }

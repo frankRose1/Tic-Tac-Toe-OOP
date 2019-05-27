@@ -67,6 +67,11 @@ input#player-1-name {
   .button:hover {
     color: #000; }
 
+.btn-choice {
+  margin-top: 25px;
+  padding: .8em 1.5em;
+}
+
 .screen {
   text-align: center;
   position: absolute;
