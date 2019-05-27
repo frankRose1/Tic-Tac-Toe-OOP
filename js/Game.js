@@ -30,25 +30,24 @@ class Game {
 
     /**
      * Create two players. Player 2 will be an instance of "Computer" if "this.vsComputer"
-     * is set to true
+     * is set to true. Will also randomly choose which player goes first
      */
     createPlayers(){
         const player1Input = document.getElementById("player-1-name").value;
         const player1Name = player1Input.trim().length > 0 ? player1Input : "Player 1";
+        const p1Active = Math.floor(Math.random() * 2) === 0;
         let player2;
         if (this.vsComputer){
-            player2 = new Computer('Computer', 'player2', '#3688C3', false)
+            player2 = new Computer('Computer', 'player2', '#3688C3', !p1Active)
         } else {
             const player2Input = document.getElementById("player-2-name").value;
             const player2Name = player2Input.trim().length > 0 ? player2Input : "Player 2";
-            player2 = new Player(player2Name, 'player2', '#3688C3', false)
+            player2 = new Player(player2Name, 'player2', '#3688C3', !p1Active)
         }
-        
-        const players = [
-            new Player(player1Name, "player1", "#FFA000", true),
+        return [
+            new Player(player1Name, "player1", "#FFA000", p1Active),
             player2
         ];
-        return players;
     }
 
     /**
@@ -82,6 +81,7 @@ class Game {
      */
     gameOver(message, result){
         const finish = document.getElementById('finish');
+        const winnerTally = document.querySelector(`.${this.activePlayer.id}-wins span.win-num`)
         finish.classList.remove("screen-win-tie", "screen-win-one", "screen-win-two")
         let screenStyle; 
         document.getElementById('board').style.display = 'none';
@@ -92,6 +92,7 @@ class Game {
         } else {
             screenStyle = this.activePlayer.id == 'player1' ? 'screen-win-one' : 'screen-win-two';
             finish.style.backgroundColor = this.activePlayer.color;
+            winnerTally.textContent = parseInt(winnerTally.textContent) + 1
         }
         
         finish.style.display = 'block';

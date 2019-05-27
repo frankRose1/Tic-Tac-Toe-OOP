@@ -55,6 +55,23 @@ input#player-1-name {
   right: 10%;
 }
 
+.player1-wins, .player2-wins{
+  position: absolute;
+  font-size: 25px;
+  font-weight: bold;
+  color: black;
+}
+
+.player1-wins {
+  top: 135px;
+  left: 10%;
+}
+
+.player2-wins {
+  top: 135px;
+  right: 10%;
+}
+
 .button {
   background: #fff;
   border-radius: 4px;
@@ -155,6 +172,8 @@ input#player-1-name {
     background: #FFA000; }
   #player2.active {
     background: #3688C3; }
+
+
 
 .boxes {
   width: 480px;

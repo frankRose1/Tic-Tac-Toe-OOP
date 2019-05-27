@@ -5,7 +5,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .idea/
-
+html_snippets/
 # Runtime data
 pids
 *.pid
